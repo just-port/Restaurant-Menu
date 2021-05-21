@@ -8,9 +8,9 @@ import java.util.Arrays;
 
 public class Menu {
 
-    private String name;
-    private String lastUpdated;
-    private ArrayList<MenuItem> menuItems;
+    private final String name;
+    private final String lastUpdated;
+    private final ArrayList<MenuItem> menuItems;
 
     public Menu(String name) {
         this.name = name;
@@ -18,7 +18,7 @@ public class Menu {
         this.menuItems = new ArrayList<>();
     }
 
-    private DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+    private final DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
     private void isItNew() {
         for (MenuItem aMenuItem : menuItems) {
@@ -27,20 +27,20 @@ public class Menu {
             Period period = Period.between(aMenuItem.dateAdded, LocalDate.now());
 
             // if aMenuItem is older than 10 days change isNew to false
-            if (aMenuItem.isNew == true && period.getDays() > 10) {
+            if (aMenuItem.isNew && period.getDays() > 10) {
                 aMenuItem.isNew = false;
             }
         }
     }
 
     public void addToMenu(MenuItem aMenuItem) {
-        if (!menuItems.contains(aMenuItem)) {
+        if (menuItems.contains(aMenuItem)) {
+            System.out.println("That item is already on the menu.");
+        } else {
             menuItems.add(aMenuItem);
             System.out.println(aMenuItem.getName() + " added to " + name + " menu");
             setDateUpdated();
             aMenuItem.dateAdded = LocalDate.now();
-        } else {
-            System.out.println("That item is already on the menu.");
         }
     }
 
@@ -53,23 +53,22 @@ public class Menu {
     public void removeFromMenu(MenuItem aMenuItem) {
         if (menuItems.contains(aMenuItem)) {
             menuItems.remove(aMenuItem);
-            System.out.println(aMenuItem + " has been removed.");
+            System.out.println(aMenuItem.getName() + " has been removed.");
         }
     }
 
     private String setDateUpdated() {
         LocalDate date = LocalDate.now();
-        String dateUpdated = date.format(myDateFormatter);
 
-        return dateUpdated;
+        return date.format(myDateFormatter);
     }
 
     public void listMenu() {
         System.out.println("\nWelcome to " + name + "!\n\n***Appetizers***\n");
         for (MenuItem aMenuItem : menuItems) {
 
-            if (aMenuItem.getCategory() == "appetizer") {
-                if (aMenuItem.isNew == true) {
+            if (aMenuItem.getCategory().equals("appetizer")) {
+                if (aMenuItem.isNew) {
                     System.out.println("New item!");
                 }
                 System.out.println(aMenuItem.listMenuItem());
@@ -79,8 +78,8 @@ public class Menu {
         System.out.println("***Main Course***\n");
 
         for (MenuItem aMenuItem : menuItems) {
-            if (aMenuItem.getCategory() == "main course") {
-                if (aMenuItem.isNew == true) {
+            if (aMenuItem.getCategory().equals("main course")) {
+                if (aMenuItem.isNew) {
                     System.out.println("New item!");
                 }
                 System.out.println(aMenuItem.listMenuItem());
@@ -90,8 +89,8 @@ public class Menu {
         System.out.println("***Dessert***\n");
 
         for (MenuItem aMenuItem : menuItems) {
-            if (aMenuItem.getCategory() == "dessert") {
-                if (aMenuItem.isNew == true) {
+            if (aMenuItem.getCategory().equals("dessert")) {
+                if (aMenuItem.isNew) {
                     System.out.println("New item!");
                 }
                 System.out.println(aMenuItem.listMenuItem());
@@ -106,7 +105,7 @@ public class Menu {
         MenuItem spinDip = new MenuItem("Spinach and Artichoke Dip");
         spinDip.setCategory("appetizer");
         spinDip.setDescription("What? You never been to AppleBees?");
-        spinDip.setPrice(9.50);
+        spinDip.setPrice(9);
 
         MenuItem wings = new MenuItem("Buffalo Chicken Wings", 8.50, "The classic bone-in wing.", "appetizer");
 
@@ -122,17 +121,19 @@ public class Menu {
 
         System.out.println(gooButt.equals(gooeyButt));
 
-        Menu neighborhooodBar = new Menu("Spanky's");
+        Menu neighborhoodBar = new Menu("Spanky's");
 
-        ArrayList<MenuItem> toAdd = new ArrayList<>();
+        ArrayList<MenuItem> toAdd = new ArrayList<>(Arrays.asList(spinDip, gooButt, wings, travs, porkSteak, ribeye));
 
-        toAdd.addAll(Arrays.asList(new MenuItem[]{spinDip, gooButt, wings, travs, porkSteak, ribeye}));
-
-        neighborhooodBar.addListToMenu(toAdd);
+        neighborhoodBar.addListToMenu(toAdd);
 
 
-        neighborhooodBar.addToMenu(new MenuItem("Buffalo Chicken Wings", 6.0, "other wings", "main course"));
-        neighborhooodBar.listMenu();
+        neighborhoodBar.addToMenu(new MenuItem("Buffalo Chicken Wings", 6.0, "other wings", "main course"));
+        neighborhoodBar.listMenu();
+
+        neighborhoodBar.removeFromMenu(ribeye);
+
+        neighborhoodBar.listMenu();
     }
 
 }

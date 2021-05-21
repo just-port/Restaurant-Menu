@@ -43,10 +43,6 @@ public class MenuItem {
         return getName() + "\n" + getDescription() + "\n" + getPrice() + "\n";
     }
 
-    void setName(String aName) {
-        name = aName;
-    }
-
     void setPrice(double aPrice) {
         price = aPrice;
     }
@@ -57,7 +53,7 @@ public class MenuItem {
 
     void setCategory(String aCategory) {
         // must be "appetizer", "main course" or "dessert"
-        if (aCategory == "appetizer" || aCategory == "main course" || aCategory == "dessert") {
+        if (aCategory.equals("appetizer") || aCategory.equals("main course") || aCategory.equals("dessert")) {
             category = aCategory;
         }
     }
@@ -75,13 +71,8 @@ public class MenuItem {
         }
         final MenuItem menuItemToBeCompared = (MenuItem) objToBeCompared;
         if (name == null) {
-            if (menuItemToBeCompared.name != null) {
-                return false;
-            }
-        } else if (!name.equals(menuItemToBeCompared.name)) {
-            return false;
-        }
-        return true;
+            return menuItemToBeCompared.name == null;
+        } else return name.equals(menuItemToBeCompared.name);
     }
 
     @Override
