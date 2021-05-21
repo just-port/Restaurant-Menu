@@ -62,11 +62,33 @@ public class MenuItem {
         }
     }
 
-    public boolean equals(MenuItem toBeCompared) {
-        if (listMenuItem().compareTo(toBeCompared.listMenuItem()) == 0) {
+    @Override
+    public boolean equals(final Object objToBeCompared) {
+        if (this == objToBeCompared) {
             return true;
-        } else {
+        }
+        if (objToBeCompared == null) {
             return false;
         }
+        if (getClass() != objToBeCompared.getClass()) {
+            return false;
+        }
+        final MenuItem menuItemToBeCompared = (MenuItem) objToBeCompared;
+        if (name == null) {
+            if (menuItemToBeCompared.name != null) {
+                return false;
+            }
+        } else if (!name.equals(menuItemToBeCompared.name)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 }

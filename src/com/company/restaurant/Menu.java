@@ -54,7 +54,6 @@ public class Menu {
         if (menuItems.contains(aMenuItem)) {
             menuItems.remove(aMenuItem);
             System.out.println(aMenuItem + " has been removed.");
-            setDateUpdated();
         }
     }
 
@@ -98,16 +97,18 @@ public class Menu {
                 System.out.println(aMenuItem.listMenuItem());
             }
         }
+
+        System.out.println("Menu last updated " + lastUpdated);
     }
 
     public static void main(String[] args) {
 
         MenuItem spinDip = new MenuItem("Spinach and Artichoke Dip");
         spinDip.setCategory("appetizer");
-        spinDip.setDescription("This spinach artichoke dip is a mix of freshly cooked spinach, artichoke hearts and three types of cheese, all baked to golden brown perfection");
+        spinDip.setDescription("What? You never been to AppleBees?");
         spinDip.setPrice(9.50);
 
-        MenuItem wings = new MenuItem("Buffalo Chicken Wings", 8.50, "A Buffalo wing in American cuisine, is an un-breaded chicken wing section that is generally deep-fried and then coated or dipped in a sauce consisting of a vinegar-based cayenne pepper hot sauce and melted butter prior to serving.", "appetizer");
+        MenuItem wings = new MenuItem("Buffalo Chicken Wings", 8.50, "The classic bone-in wing.", "appetizer");
 
         MenuItem travs = new MenuItem("Toasted Ravioli", 4.5, "A Saint Louis Specialty/Travesty", "appetizer");
 
@@ -129,6 +130,8 @@ public class Menu {
 
         neighborhooodBar.addListToMenu(toAdd);
 
+
+        neighborhooodBar.addToMenu(new MenuItem("Buffalo Chicken Wings", 6.0, "other wings", "main course"));
         neighborhooodBar.listMenu();
     }
 
