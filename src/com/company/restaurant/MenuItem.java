@@ -1,7 +1,6 @@
 package com.company.restaurant;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 
 public class MenuItem {
 
@@ -9,20 +8,20 @@ public class MenuItem {
     private double price;
     private String description;
     private String category;
+    boolean isNew;
+    LocalDate dateAdded;
 
     public MenuItem(String name, double price, String description, String category) {
-        LocalDateTime date = LocalDateTime.now();
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
+        this.isNew = true;
     }
 
     public MenuItem(String name) {
-        this(name, 0.0, "description incoming", "category incoming");
+        this(name, 0.0, "description goes here", "category goes here");
     }
-
-    private DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
     public String getName() {
         return name;
@@ -40,19 +39,34 @@ public class MenuItem {
         return category;
     }
 
-    public void setName(String aName) {
+    public String listMenuItem() {
+        return getName() + "\n" + getDescription() + "\n" + getPrice() + "\n";
+    }
+
+    void setName(String aName) {
         name = aName;
     }
 
-    public void setPrice(double aPrice) {
+    void setPrice(double aPrice) {
         price = aPrice;
     }
 
-    public void setDescription(String aDescription) {
+    void setDescription(String aDescription) {
         description = aDescription;
     }
 
-    public void setCategory(String aCategory) {
-        category = aCategory;
+    void setCategory(String aCategory) {
+        // must be "appetizer", "main course" or "dessert"
+        if (aCategory == "appetizer" || aCategory == "main course" || aCategory == "dessert") {
+            category = aCategory;
+        }
+    }
+
+    public boolean equals(MenuItem toBeCompared) {
+        if (listMenuItem().compareTo(toBeCompared.listMenuItem()) == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
